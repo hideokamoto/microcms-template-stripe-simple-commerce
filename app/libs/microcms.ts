@@ -24,18 +24,12 @@ export type Product = {
 }
 export const listProducts = async () => {
   return client.getList<Product>({
-    customRequestInit: {
-        cache: process.env.NODE_ENV === 'production' ? 'default': 'no-cache',
-    },
     endpoint: 'products',
   })
 }
 
 export const getProductById = async (id: string) => {
   return client.get<Product>({
-    customRequestInit: {
-        cache: process.env.NODE_ENV === 'production' ? 'default': 'no-cache',
-    },
     endpoint: 'products',
     contentId: id,
   })
@@ -47,9 +41,6 @@ export const getSiteInfo = async () => {
         description: string;
         feature_image?: MicroCMSImage
     }>({
-        customRequestInit: {
-            cache: process.env.NODE_ENV === 'production' ? 'default': 'no-cache',
-        },
         endpoint: 'site-info',
     })
 }
