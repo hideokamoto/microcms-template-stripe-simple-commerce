@@ -1,9 +1,7 @@
-import { SiteInfo } from "@/app/libs/microcms";
-import Link from "next/link";
+import { SiteInfo } from '@/app/libs/microcms'
+import Link from 'next/link'
 
-export function Header(props: {
-    siteInfo: SiteInfo
-}) {
+export function Header(props: { siteInfo: SiteInfo }) {
   return (
     <header>
       <div className='navbar bg-base-100'>
@@ -30,27 +28,19 @@ export function Header(props: {
               className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
             >
               <li>
-                <Link
-                    href="/"
-                >
-                    Home
-                </Link>
+                <Link href='/'>Home</Link>
               </li>
             </ul>
           </div>
-          <a className='btn btn-ghost normal-case text-xl'>
+          <Link href='/' className='btn btn-ghost normal-case text-xl'>
             {props.siteInfo.site_title}
-          </a>
+          </Link>
         </div>
         <div className='navbar-center hidden lg:flex'>
           <ul className='menu menu-horizontal px-1'>
-              <li>
-                <Link
-                    href="/"
-                >
-                    Home
-                </Link>
-              </li>
+            <li>
+              <Link href='/'>Home</Link>
+            </li>
           </ul>
         </div>
       </div>

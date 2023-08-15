@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { listProducts } from '../libs/microcms'
 import { Suspense } from 'react'
+import { Pagination } from './layouts/Pagenation'
 
 export async function Products() {
-  const { contents: products } = await listProducts()
+  const { contents: products, ...args } = await listProducts()
+  const { totalCount, limit } = args
   return (
     <Suspense fallback={<div>Loading...</div>}>
       {products.map((product) => {
@@ -45,6 +47,7 @@ export async function Products() {
           </section>
         )
       })}
+      <Pagination totalCount={totalCount} limit={limit} />
     </Suspense>
   )
 }

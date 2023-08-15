@@ -1,6 +1,5 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import Link from 'next/link'
 import { getSiteInfo } from './libs/microcms'
 import { Header } from './components/layouts/Header'
 import { Footer } from './components/layouts/Footer'
