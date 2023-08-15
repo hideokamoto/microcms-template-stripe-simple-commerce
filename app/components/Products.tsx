@@ -3,8 +3,8 @@ import { listProducts } from '../libs/microcms'
 import { Suspense } from 'react'
 import { Pagination } from './layouts/Pagenation'
 
-export async function Products() {
-  const { contents: products, ...args } = await listProducts()
+export async function Products({offset}: {offset?: number}) {
+  const { contents: products, ...args } = await listProducts({offset})
   const { totalCount, limit } = args
   return (
     <Suspense fallback={<div>Loading...</div>}>

@@ -1,5 +1,5 @@
 import { createClient } from 'microcms-js-sdk'
-import type { MicroCMSImage } from 'microcms-js-sdk'
+import type { MicroCMSImage, MicroCMSQueries } from 'microcms-js-sdk'
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error('MICROCMS_SERVICE_DOMAIN is required')
@@ -22,9 +22,19 @@ export type Product = {
   price: number
   currency: string[]
 }
-export const listProducts = async () => {
+export const listProducts = async (queries: MicroCMSQueries = {}) => {
+  const pageLimit = 4
+  const offset = queries?.offset ? queries?.offset * pageLimit: 0 
   return client.getList<Product>({
+    customRequestInit: {
+      cache: 'no-cache',
+    },
     endpoint: 'products',
+    queries: {
+      limit: pageLimit,
+      ...queries,
+      offset,
+    },
   })
 }
 
@@ -39,7 +49,6 @@ export type SiteInfo = {
   site_title: string
   description: string
   feature_image?: MicroCMSImage
-
 }
 export const getSiteInfo = async () => {
   return client.get<SiteInfo>({
