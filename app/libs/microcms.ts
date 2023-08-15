@@ -17,6 +17,7 @@ export const client = createClient({
 export type Product = {
   name: string
   featured_image: MicroCMSImage
+  images: Array<MicroCMSImage>
   description?: string
   price: number
   currency: string[]
