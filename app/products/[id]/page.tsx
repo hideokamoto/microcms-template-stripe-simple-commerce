@@ -43,6 +43,7 @@ export default async function Product({ params: { id: productId } }: { params: {
       {product.images.map((image) => {
         return (
           <img
+            key={image.url}
             src={image.url}
             alt={`Product images of ${product.name}`}
             width={image.width}
