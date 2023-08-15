@@ -40,3 +40,16 @@ export const getProductById = async (id: string) => {
     contentId: id,
   })
 }
+
+export const getSiteInfo = async () => {
+    return client.get<{
+        site_title: string;
+        description: string;
+        feature_image?: MicroCMSImage
+    }>({
+        customRequestInit: {
+            cache: process.env.NODE_ENV === 'production' ? 'default': 'no-cache',
+        },
+        endpoint: 'site-info',
+    })
+}
