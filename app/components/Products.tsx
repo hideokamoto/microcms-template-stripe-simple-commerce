@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import { listProducts } from '../libs/microcms'
+import { Suspense } from 'react'
 
 export async function Products() {
   const { contents: products } = await listProducts()
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       {products.map((product) => {
         return (
           <section key={product.id} className='bg-white pb-10 rounded-lg dark:text-blue-700'>
@@ -44,6 +45,6 @@ export async function Products() {
           </section>
         )
       })}
-    </>
+    </Suspense>
   )
 }
