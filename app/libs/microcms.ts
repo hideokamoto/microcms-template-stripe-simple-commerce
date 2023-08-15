@@ -35,12 +35,14 @@ export const getProductById = async (id: string) => {
   })
 }
 
+export type SiteInfo = {
+  site_title: string
+  description: string
+  feature_image?: MicroCMSImage
+
+}
 export const getSiteInfo = async () => {
-    return client.get<{
-        site_title: string;
-        description: string;
-        feature_image?: MicroCMSImage
-    }>({
-        endpoint: 'site-info',
-    })
+  return client.get<SiteInfo>({
+    endpoint: 'site-info',
+  })
 }

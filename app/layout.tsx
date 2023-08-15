@@ -2,6 +2,8 @@ import './globals.css'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { getSiteInfo } from './libs/microcms'
+import { Header } from './components/layouts/Header'
+import { Footer } from './components/layouts/Footer'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,45 +15,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang='ja'>
       <body>
-        <header className='relative bg-white'>
-          <nav aria-label='Top' className='max-w-7xl mx-auto py-2 px-4 sm:px-6 md:px-8'>
-            <div className='h-16 flex items-center'>
-                  <Link
-                    href='/'
-                    className='flex items-center text-sm font-medium text-gray-700 hover:underline'
-                  >
-                    {siteInfo.site_title}
-                  </Link>
-              <div className='hidden md:ml-8 md:block md:self-stretch'>
-                <div className='h-full flex space-x-8'>
-                  <Link
-                    href='/'
-                    className='flex items-center text-sm font-medium text-gray-700 hover:underline'
-                  >
-                    Home
-                  </Link>
-                </div>
-              </div>
-
-              <div className='ml-auto flex items-center'>
-                <div className='hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-6'>
-                  <a
-                    href='/'
-                    className='flex items-center text-sm font-medium text-gray-700 hover:underline'
-                  >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </header>
+        <Header siteInfo={siteInfo} />
         <main className='flex min-h-screen flex-col items-center justify-between p-24'>
           {children}
         </main>
-        <footer>
-          {siteInfo.description}
-        </footer>
+        <Footer siteInfo={siteInfo} />
       </body>
     </html>
   )

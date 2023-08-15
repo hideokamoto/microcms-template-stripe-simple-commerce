@@ -1,5 +1,5 @@
 import { getProductById } from '@/app/libs/microcms'
-export const runtime = 'edge';
+export const runtime = 'edge'
 export default async function Product({ params: { id: productId } }: { params: { id: string } }) {
   const product = await getProductById(productId)
   if (!product) {
