@@ -1,6 +1,28 @@
 import { getProductById } from '@/app/libs/microcms'
+import { Metadata, ResolvingMetadata } from 'next'
 export const runtime = 'edge'
-export default async function Product({ params: { id: productId } }: { params: { id: string } }) {
+
+type PageProps = {
+  params: {
+    id: string
+  }
+  searchParams: {
+    draftKey?: string
+  }
+}
+
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const product = await getProductById(params.id)
+  const { title } = await parent
+  return {
+    title: `${product.name} | ${title?.absolute}`,
+  }
+}
+
+export default async function Product({ params: { id: productId } }: PageProps) {
   const product = await getProductById(productId)
   if (!product) {
     console.log('not found')

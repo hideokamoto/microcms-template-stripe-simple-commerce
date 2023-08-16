@@ -16,15 +16,14 @@ export const client = createClient({
 const customRequestInit: CustomRequestInit | undefined = (() => {
   if (process.env.NODE_ENV === 'development') {
     return {
-      cache: 'no-cache'
+      cache: 'no-cache',
     }
   }
   if (process.env?.NEXT_RUNTIME !== 'edge') return undefined
   return {
-    cache: 'default'
+    cache: 'default',
   }
-})();
-
+})()
 
 export type Product = {
   name: string
@@ -36,7 +35,7 @@ export type Product = {
 }
 export const listProducts = async (queries: MicroCMSQueries = {}) => {
   const pageLimit = 4
-  const offset = queries?.offset ? queries?.offset * pageLimit: 0 
+  const offset = queries?.offset ? queries?.offset * pageLimit : 0
   return client.getList<Product>({
     customRequestInit,
     endpoint: 'products',
@@ -53,7 +52,7 @@ export const getProductById = async (id: string, queries: MicroCMSQueries = {}) 
     customRequestInit,
     endpoint: 'products',
     contentId: id,
-    queries
+    queries,
   })
 }
 

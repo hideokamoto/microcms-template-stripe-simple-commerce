@@ -1,5 +1,6 @@
 import { Products } from './components/Products'
 export const runtime = 'edge'
+
 export default function Home() {
   return (
     <div className='mb-32 grid text-center lg:mb-0 md:grid-cols-2 lg:grid-cols-3 lg:text-left md:gap-10 gap-5 sm:px-5'>
