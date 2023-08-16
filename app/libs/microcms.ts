@@ -1,5 +1,5 @@
 import { createClient } from 'microcms-js-sdk'
-import type { MicroCMSImage, MicroCMSQueries } from 'microcms-js-sdk'
+import type { CustomRequestInit, MicroCMSImage, MicroCMSQueries } from 'microcms-js-sdk'
 
 if (!process.env.MICROCMS_SERVICE_DOMAIN) {
   throw new Error('MICROCMS_SERVICE_DOMAIN is required')
@@ -8,11 +8,14 @@ if (!process.env.MICROCMS_SERVICE_DOMAIN) {
 if (!process.env.MICROCMS_API_KEY) {
   throw new Error('MICROCMS_API_KEY is required')
 }
-
 export const client = createClient({
   serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
   apiKey: process.env.MICROCMS_API_KEY,
 })
+
+const customRequestInit: CustomRequestInit | undefined = process.env?.NEXT_RUNTIME !== 'edge' ?  {
+  cache: process.env.NODE_ENV === 'development' ? 'no-cache': 'default'
+}: undefined
 
 export type Product = {
   name: string
@@ -26,9 +29,7 @@ export const listProducts = async (queries: MicroCMSQueries = {}) => {
   const pageLimit = 4
   const offset = queries?.offset ? queries?.offset * pageLimit: 0 
   return client.getList<Product>({
-    customRequestInit: {
-      cache: 'no-cache',
-    },
+    customRequestInit,
     endpoint: 'products',
     queries: {
       limit: pageLimit,
@@ -38,10 +39,12 @@ export const listProducts = async (queries: MicroCMSQueries = {}) => {
   })
 }
 
-export const getProductById = async (id: string) => {
+export const getProductById = async (id: string, queries: MicroCMSQueries = {}) => {
   return client.get<Product>({
+    customRequestInit,
     endpoint: 'products',
     contentId: id,
+    queries
   })
 }
 
@@ -52,6 +55,7 @@ export type SiteInfo = {
 }
 export const getSiteInfo = async () => {
   return client.get<SiteInfo>({
+    customRequestInit,
     endpoint: 'site-info',
   })
 }
