@@ -1,5 +1,6 @@
 import { getProductById } from '@/app/libs/microcms'
 import { Metadata, ResolvingMetadata } from 'next'
+import { notFound } from 'next/navigation'
 export const runtime = 'edge'
 
 type PageProps = {
@@ -15,17 +16,22 @@ export async function generateMetadata(
   { params }: PageProps,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const product = await getProductById(params.id)
+  const product = await getProductById(params.id).catch(() => null)
   const { title } = await parent
+  if (!product) {
+    return {
+      title
+    }
+  }
   return {
     title: `${product.name} | ${title?.absolute}`,
   }
 }
 
 export default async function Product({ params: { id: productId } }: PageProps) {
-  const product = await getProductById(productId)
+  const product = await getProductById(productId).catch(() => null)
   if (!product) {
-    console.log('not found')
+    notFound()
   }
   return (
     <div className='mb-32 grid text-center lg:mb-0 md:grid-cols-2 lg:text-left md:gap-10 gap-5 sm:px-5'>
