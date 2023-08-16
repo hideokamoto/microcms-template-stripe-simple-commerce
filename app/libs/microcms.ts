@@ -19,7 +19,7 @@ const customRequestInit: CustomRequestInit | undefined = (() => {
       cache: 'no-cache',
     }
   }
-  if (process.env?.NEXT_RUNTIME !== 'edge') return undefined
+  if (process.env?.NEXT_RUNTIME === 'edge') return undefined
   return {
     cache: 'default',
   }
