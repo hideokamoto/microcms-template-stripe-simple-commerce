@@ -13,9 +13,18 @@ export const client = createClient({
   apiKey: process.env.MICROCMS_API_KEY,
 })
 
-const customRequestInit: CustomRequestInit | undefined = process.env?.NEXT_RUNTIME !== 'edge' ?  {
-  cache: process.env.NODE_ENV === 'development' ? 'no-cache': 'default'
-}: undefined
+const customRequestInit: CustomRequestInit | undefined = (() => {
+  if (process.env.NODE_ENV === 'development') {
+    return {
+      cache: 'no-cache'
+    }
+  }
+  if (process.env?.NEXT_RUNTIME !== 'edge') return undefined
+  return {
+    cache: 'default'
+  }
+})();
+
 
 export type Product = {
   name: string
