@@ -8,7 +8,7 @@ type PageProps = {
     id: string
   }
   searchParams: {
-    draftKey?: string
+    draft_key?: string
   }
 }
 
@@ -20,7 +20,7 @@ export async function generateMetadata(
   const { title } = await parent
   if (!product) {
     return {
-      title
+      title,
     }
   }
   return {
@@ -28,20 +28,31 @@ export async function generateMetadata(
   }
 }
 
-export default async function Product({ params: { id: productId } }: PageProps) {
-  const product = await getProductById(productId).catch(() => null)
+export default async function Product({ params: { id: productId }, searchParams }: PageProps) {
+  let product = await getProductById(productId).catch(() => null)
+  let draftKey: string | null = null
+  if (!product) {
+    draftKey = searchParams?.draft_key || null
+    if (draftKey) {
+      product = await getProductById(productId, {
+        draftKey,
+      }).catch(() => null)
+    }
+  }
   if (!product) {
     notFound()
   }
   return (
     <div className='mb-32 grid text-center lg:mb-0 md:grid-cols-2 lg:text-left md:gap-10 gap-5 sm:px-5'>
-      <img
-        src={product.featured_image.url}
-        alt={`Product image of ${product.name}`}
-        width={product.featured_image.width}
-        height={product.featured_image.height}
-        className='rounded-t-lg'
-      />
+      {product.featured_image ? (
+        <img
+          src={product.featured_image.url}
+          alt={`Product image of ${product.name}`}
+          width={product.featured_image.width}
+          height={product.featured_image.height}
+          className='rounded-t-lg'
+        />
+      ) : null}
       <form action={`/api/${productId}/checkout`} method='POST'>
         <h1>{product.name}</h1>
         <p>
@@ -49,6 +60,7 @@ export default async function Product({ params: { id: productId } }: PageProps) 
         </p>
         <div>
           <button
+            disabled={!!draftKey}
             type='submit'
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
           >
@@ -58,7 +70,9 @@ export default async function Product({ params: { id: productId } }: PageProps) 
         <input type='hidden' name='amount' value={product.price} />
         <input type='hidden' name='currency' value={product.currency} />
         <input type='hidden' name='name' value={product.name} />
-        <input type='hidden' name='image' value={product.featured_image.url} />
+        {product.featured_image ? (
+          <input type='hidden' name='image' value={product.featured_image.url} />
+        ) : null}
       </form>
       {product.description ? (
         <div
@@ -73,7 +87,7 @@ export default async function Product({ params: { id: productId } }: PageProps) 
           <img
             key={image.url}
             src={image.url}
-            alt={`Product images of ${product.name}`}
+            alt={`Product images of ${product?.name}`}
             width={image.width}
             height={image.height}
             className='rounded-t-lg'
