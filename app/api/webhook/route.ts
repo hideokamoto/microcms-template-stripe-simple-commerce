@@ -1,6 +1,6 @@
 import { Product } from '@/app/libs/microcms'
 import { NextRequest, NextResponse } from 'next/server'
-export const runtime = 'edge'
+
 export async function POST(request: NextRequest) {
   if (request.headers.get('content-type') !== 'application/json') {
     return NextResponse.json(

@@ -1,7 +1,7 @@
 import { getProductById } from '@/app/libs/microcms'
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
-export const runtime = 'edge'
+
 
 type PageProps = {
   params: {

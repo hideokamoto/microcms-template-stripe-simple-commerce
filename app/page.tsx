@@ -1,5 +1,5 @@
 import { Products } from './components/Products'
-export const runtime = 'edge'
+
 
 export default function Home() {
   return (
