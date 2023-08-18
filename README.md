@@ -4,6 +4,19 @@ microCMSで商品情報を管理し、Stripeで決済を行うサンプルテン
 
 ## スクリーンショット
 
+### TOPページ
+
+https://microcms-template-stripe-simple-commerce.pages.dev/
+<img width="1780" alt="スクリーンショット 2023-08-18 23 09 21" src="https://github.com/hideokamoto/microcms-template-stripe-simple-commerce/assets/6883571/38f76713-4020-4e9f-9508-2c6dbd0b09e9">
+
+### 商品詳細ページ
+
+https://microcms-template-stripe-simple-commerce.pages.dev/products/jf2yshouvaf
+<img width="1828" alt="スクリーンショット 2023-08-18 23 09 45" src="https://github.com/hideokamoto/microcms-template-stripe-simple-commerce/assets/6883571/24dcb4c8-c5ec-4af4-8d0f-6544a89d0cc6">
+
+### 決済ページ
+Stripe Checkoutにリダイレクトします。
+<img width="1239" alt="スクリーンショット 2023-08-18 23 09 51" src="https://github.com/hideokamoto/microcms-template-stripe-simple-commerce/assets/6883571/4192a912-070c-487b-a9f5-60b06cf957e4">
 
 ## 動作環境
 
