@@ -34,7 +34,7 @@ export async function POST(request: NextRequest, { params }: { params: { product
         currency: currency.toString(),
       },
       name: name.toString(),
-      images: [image.toString()],
+      images: [image?.toString()],
     })
     priceId =
       typeof product.default_price === 'string'

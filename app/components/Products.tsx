@@ -11,15 +11,17 @@ export async function Products({ offset }: { offset?: number }) {
       {products.map((product) => {
         return (
           <section key={product.id} className='bg-white pb-10 rounded-lg dark:text-blue-700'>
-            <Link href={`/products/${product.id}`}>
-              <img
-                src={product.featured_image.url}
-                alt={`Product image of ${product.name}`}
-                width={product.featured_image.width}
-                height={product.featured_image.height}
-                className='rounded-t-lg'
-              />
-            </Link>
+            {product.featured_image ? (
+              <Link href={`/products/${product.id}`}>
+                <img
+                  src={product.featured_image.url}
+                  alt={`Product image of ${product.name}`}
+                  width={product.featured_image.width}
+                  height={product.featured_image.height}
+                  className='rounded-t-lg'
+                />
+              </Link>
+            ) : null}
             <div className='px-10 mt-5'>
               <h2 className='text-xl font-bold'>
                 <Link href={`/products/${product.id}`}>{product.name}</Link>
@@ -41,7 +43,9 @@ export async function Products({ offset }: { offset?: number }) {
                 <input type='hidden' name='amount' value={product.price} />
                 <input type='hidden' name='currency' value={product.currency} />
                 <input type='hidden' name='name' value={product.name} />
-                <input type='hidden' name='image' value={product.featured_image.url} />
+                {product.featured_image ? (
+                  <input type='hidden' name='image' value={product.featured_image.url} />
+                ) : null}
               </form>
             </div>
           </section>
