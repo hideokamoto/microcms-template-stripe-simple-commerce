@@ -6,21 +6,21 @@ import Stripe from 'stripe'
 export const runtime = 'edge'
 
 type MicroCMSWebhookEvent = {
-  service: string;
-  api: string;
-  id: string;
-  type: string;
+  service: string
+  api: string
+  id: string
+  type: string
   contents: {
-    old: MicroCMSWebhookContent;
-    new: MicroCMSWebhookContent;
+    old: MicroCMSWebhookContent
+    new: MicroCMSWebhookContent
   }
 }
 type MicroCMSWebhookContent = {
-  id: string;
-  status: string[];
-  draftKey: string | null;
-  publishValue: MicroCMSContentId & MicroCMSDate & Partial<Product> | null;
-  draftValue: MicroCMSContentId & MicroCMSDate & Partial<Product> | null;
+  id: string
+  status: string[]
+  draftKey: string | null
+  publishValue: (MicroCMSContentId & MicroCMSDate & Partial<Product>) | null
+  draftValue: (MicroCMSContentId & MicroCMSDate & Partial<Product>) | null
 }
 export async function POST(request: NextRequest) {
   if (request.headers.get('content-type') !== 'application/json') {
@@ -44,15 +44,15 @@ export async function POST(request: NextRequest) {
       const newData = data.contents.new
       const oldData = data.contents.old
       if (!newData || !oldData) {
-        break;
+        break
       }
       if (!newData.status.includes('PUBLISH')) {
-        break;
+        break
       }
 
       // Stripeの商品を更新
       const product = await stripe.products.retrieve(newData.id).catch(() => null)
-      if (!product) break;
+      if (!product) break
       const newProductParam: Stripe.ProductUpdateParams = {}
       const { name, description, images } = newData.publishValue || {}
       if (name) newProductParam.name = name
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       }
       // Stripeの料金を更新
       if (!newData.publishValue?.price || !newData.publishValue?.currency) {
-        break;
+        break
       }
       if (newData.publishValue?.price !== oldData.publishValue?.price) {
         let { id: priceId } = await stripe.prices
@@ -72,24 +72,24 @@ export async function POST(request: NextRequest) {
           })
           .then(({ data }) => data[0])
           .catch((e) => ({ id: null }))
-          if (!priceId) {
-            break;
-          }
-          const newPrice = await stripe.prices.create({
-            product: newData.id,
-            unit_amount: newData.publishValue.price,
-            currency: newData.publishValue.currency[0]
-          })
-          await stripe.products.update(newData.id, {
-            default_price: newPrice.id
-          })
-          await stripe.prices.update(priceId, {
-            active: false
-          })
+        if (!priceId) {
+          break
+        }
+        const newPrice = await stripe.prices.create({
+          product: newData.id,
+          unit_amount: newData.publishValue.price,
+          currency: newData.publishValue.currency[0],
+        })
+        await stripe.products.update(newData.id, {
+          default_price: newPrice.id,
+        })
+        await stripe.prices.update(priceId, {
+          active: false,
+        })
       }
     }
     default:
-      break;
+      break
   }
   return NextResponse.json(
     {

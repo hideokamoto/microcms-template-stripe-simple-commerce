@@ -27,7 +27,7 @@ const customRequestInit: CustomRequestInit | undefined = (() => {
 
 export type Product = {
   name: string
-  featured_image: MicroCMSImage
+  featured_image?: MicroCMSImage
   images: Array<MicroCMSImage>
   description?: string
   price: number
