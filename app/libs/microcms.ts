@@ -61,9 +61,14 @@ export type SiteInfo = {
   description: string
   feature_image?: MicroCMSImage
 }
-export const getSiteInfo = async () => {
+export const getSiteInfo = async ():Promise<SiteInfo> => {
   return client.get<SiteInfo>({
     customRequestInit,
     endpoint: 'site-info',
+  }).catch(e => {
+    return {
+      site_title: "Demo site data",
+      description: "Please update your microCMS data to set your site info"
+    }
   })
 }
