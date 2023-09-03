@@ -1,6 +1,6 @@
 import { stripe } from '@/app/libs/stripe'
 import { NextRequest, NextResponse } from 'next/server'
-
+export const runtime = 'edge'
 export async function POST(request: NextRequest, { params }: { params: { product_id: string } }) {
   const origin = request.headers.get('origin') || 'http://localhost:3000'
   const referer = request.headers.get('referer') || 'http://localhost:3000'

@@ -21,7 +21,7 @@ type MicroCMSWebhookContent = {
   publishValue: (MicroCMSContentId & MicroCMSDate & Partial<Product>) | null
   draftValue: (MicroCMSContentId & MicroCMSDate & Partial<Product>) | null
 }
-
+export const runtime = 'edge'
 export async function POST(request: NextRequest) {
   return NextResponse.json({
     message: 'demo',

@@ -27,7 +27,7 @@ export async function generateMetadata(
     title: `${product.name} | ${title?.absolute}`,
   }
 }
-
+export const runtime = 'edge'
 export default async function Product({ params: { id: productId }, searchParams }: PageProps) {
   let product = await getProductById(productId).catch(() => null)
   let draftKey: string | null = null
