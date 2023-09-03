@@ -84,3 +84,10 @@ microCMS Webhookを利用することで、microCMS側で変更した商品情�
 https://document.microcms.io/manual/webhook-setting#hb2d39bd6cc
 
 設定後、環境変数に`MICROCMS_WEBHOOK_SECRET`として保存したシークレットを設定します。
+
+```diff
+MICROCMS_API_KEY=xxxx
+MICROCMS_SERVICE_DOMAIN=demo-simple-commerce
+STRIPE_SECRET_API_KEY=sk_test_xxx
++MICROCMS_WEBHOOK_SECRET=YOUR_SECRET
+```
