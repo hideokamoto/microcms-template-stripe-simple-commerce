@@ -23,12 +23,6 @@ type MicroCMSWebhookContent = {
 }
 export const runtime = 'edge'
 export async function POST(request: NextRequest) {
-  return NextResponse.json({
-    message: 'demo',
-    header: request.headers.get('x-microcms-signature'),
-  })
-}
-export async function POST1(request: NextRequest) {
   const microCMSWebhookSecret = process.env.MICROCMS_WEBHOOK_SECRET
   if (microCMSWebhookSecret && microCMSWebhookSecret !== request.headers.get('x-microcms-signature')) {
     return NextResponse.json(
