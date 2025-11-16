@@ -1,22 +1,24 @@
 import { getProductById } from '@/app/libs/microcms'
 import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string
-  }
-  searchParams: {
+  }>
+  searchParams: Promise<{
     draft_key?: string
-  }
+  }>
 }
 
 export async function generateMetadata(
   { params }: PageProps,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const product = await getProductById(params.id).catch(() => null)
+  const { id } = await params
+  const product = await getProductById(id).catch(() => null)
   const { title } = await parent
   if (!product) {
     return {
@@ -28,11 +30,13 @@ export async function generateMetadata(
   }
 }
 export const runtime = 'edge'
-export default async function Product({ params: { id: productId }, searchParams }: PageProps) {
+export default async function Product({ params, searchParams }: PageProps) {
+  const { id: productId } = await params
+  const searchParamsResolved = await searchParams
   let product = await getProductById(productId).catch(() => null)
   let draftKey: string | null = null
   if (!product) {
-    draftKey = searchParams?.draft_key || null
+    draftKey = searchParamsResolved?.draft_key || null
     if (draftKey) {
       product = await getProductById(productId, {
         draftKey,
@@ -45,7 +49,7 @@ export default async function Product({ params: { id: productId }, searchParams 
   return (
     <div className='mb-32 grid text-center lg:mb-0 md:grid-cols-2 lg:text-left md:gap-10 gap-5 sm:px-5'>
       {product.featured_image ? (
-        <img
+        <Image
           src={product.featured_image.url}
           alt={`Product image of ${product.name}`}
           width={product.featured_image.width}
@@ -84,7 +88,7 @@ export default async function Product({ params: { id: productId }, searchParams 
       {product.images.length > 0 ? <h2>Product images</h2> : null}
       {product.images.map((image) => {
         return (
-          <img
+          <Image
             key={image.url}
             src={image.url}
             alt={`Product images of ${product?.name}`}
