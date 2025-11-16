@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { listProducts } from '../libs/microcms'
 import { Suspense } from 'react'
 import { Pagination } from './layouts/Pagenation'
@@ -13,7 +14,7 @@ export async function Products({ offset }: { offset?: number }) {
           <section key={product.id} className='bg-white pb-10 rounded-lg dark:text-blue-700'>
             {product.featured_image ? (
               <Link href={`/products/${product.id}`}>
-                <img
+                <Image
                   src={product.featured_image.url}
                   alt={`Product image of ${product.name}`}
                   width={product.featured_image.width}

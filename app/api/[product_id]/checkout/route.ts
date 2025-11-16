@@ -1,10 +1,10 @@
 import { stripe } from '@/app/libs/stripe'
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest, { params }: { params: { product_id: string } }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ product_id: string }> }) {
   const origin = request.headers.get('origin') || 'http://localhost:3000'
   const referer = request.headers.get('referer') || 'http://localhost:3000'
-  const productId = params.product_id
+  const { product_id: productId } = await params
   if (request.headers.get('content-type') !== 'application/x-www-form-urlencoded') {
     return NextResponse.json(
       {
