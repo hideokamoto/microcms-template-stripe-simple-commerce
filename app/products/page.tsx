@@ -1,8 +1,7 @@
-import { Products } from '../../../components/Products'
+import { Products } from '../components/Products'
 
 export const runtime = 'edge'
-export default async function Home({ params }: { params: Promise<{ page: string }> }) {
-  const { page } = await params
+export default async function ProductsPage() {
   return (
     <div className='w-full'>
       {/* 商品セクション */}
@@ -12,9 +11,10 @@ export default async function Home({ params }: { params: Promise<{ page: string 
             <h2 className='text-4xl font-bold mb-4'>商品一覧</h2>
             <p className='text-gray-600 text-lg'>お気に入りの商品を見つけてください</p>
           </div>
-          <Products offset={Number(page) - 1} />
+          <Products offset={0} />
         </div>
       </section>
     </div>
   )
 }
+

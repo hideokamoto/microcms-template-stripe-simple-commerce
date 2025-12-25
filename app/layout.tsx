@@ -15,10 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const siteInfo = await getSiteInfo()
   return (
-    <html lang='ja'>
-      <body>
+    <html lang='ja' data-theme='light'>
+      <body className='flex flex-col min-h-screen'>
         <Header siteInfo={siteInfo} />
-        <main className='flex min-h-screen flex-col items-center justify-between p-24'>
+        <main className='flex-1 flex flex-col items-center justify-start py-8 lg:py-12'>
           {children}
         </main>
         <Footer siteInfo={siteInfo} />
